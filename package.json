@@ -1,0 +1,17 @@
+{
+	"name": "iau-profile-pic-creator",
+	"version": "0.0.1",
+	"main": "index.js",
+	"repository": "https://github.com/movahhedi/iau-profile-pic-creator",
+	"author": "Shahab Movahhedi <45717968+movahhedi@users.noreply.github.com>",
+	"license": "MIT",
+	"private": false,
+	"devDependencies": {
+		"@types/jquery": "^3.5.16",
+		"jimp": "^0.22.4",
+		"jquery": "^3.6.3",
+		"lestin": "^0.0.7",
+		"typescript": "^4.9.5",
+		"vite": "^4.1.3"
+	}
+}
