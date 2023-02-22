@@ -1,8 +1,19 @@
 // import $ from "jquery";
-let Result = <img id="Result" />;
+let Result_Image = <img id="Result" />,
+	CourseName_Input = <input type="text" className="InputText" id="InputText" />;
 
-async function Create() {
+function Create() {
+	let Data = new FormData();
+	Data.append("CourseName", (CourseName_Input as HTMLInputElement).textContent);
 
+	fetch(import.meta.env.VITE_API_URL, {
+		method: "post",
+		body: Data,
+	})
+		.then((res) => res.text())
+		.then((text) => {
+			(Result_Image as HTMLImageElement).src = text;
+		});
 }
 
 let InitialBody = (
@@ -11,16 +22,14 @@ let InitialBody = (
 			<label htmlFor="InputText" className="InputLabel">
 				Course Name
 			</label>
-			<input type="text" className="InputText" id="InputText" />
+			{CourseName_Input}
 		</div>
 
 		<button type="button" id="Create" onClick={Create}>
 			Create
 		</button>
 
-		<div class="image-container">
-			{Result}
-		</div>
+		<div class="image-container">{Result_Image}</div>
 	</div>
 );
 

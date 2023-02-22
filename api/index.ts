@@ -4,16 +4,18 @@ import Sharp from "sharp";
 import cors from "cors";
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json()); // Used to parse JSON bodies
+app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
 app.use(cors());
 
 app.set("port", process.env.PORT || 8081);
 
-app.get("/api", async (req, res) => {
+app.post("/api", async (req, res) => {
 	try {
 		const width = 360;
 		const height = 203;
-		const label = "سلام Text";
+		console.log(req.body);
+		const label = req.body.CourseName;
 
 		const svg = `
 		<svg width="${width}" height="${height}" viewBox="0 0 ${height} ${height + 2}">
@@ -50,8 +52,9 @@ app.get("/api", async (req, res) => {
 				});
 				res.end(svg_res);
 
-				console.log(svg_res);
+				console.timeEnd("Sharp");
 			});
+
 	} catch (err) {
 		processErrorResponse(res, 500, err);
 	}
@@ -68,7 +71,7 @@ function processErrorResponse(res, statusCode, message) {
 }
 
 app.listen(app.get("port"), () => {
-	console.log("Express app vercel-express-react-demo is running on port", app.get("port"));
+	console.log("Express is running on port", app.get("port"));
 });
 
 export default app;
