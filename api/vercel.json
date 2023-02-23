@@ -1,8 +1,22 @@
 {
+	"version": 2,
 	"functions": {
 		"index.ts": {
 			"memory": 1024,
 			"maxDuration": 10
 		}
-	}
+	},
+	"builds": [
+		{
+			"src": "dist/index.js",
+			"use": "@vercel/node",
+			"config": { "includeFiles": ["dist/**"] }
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "dist/index.js"
+		}
+	]
 }
