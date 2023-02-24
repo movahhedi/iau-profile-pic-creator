@@ -10,6 +10,7 @@
 	"scripts": {
 		"start": "nodemon index.ts",
 		"build": "rimraf dist && tsc",
+		"prod": "tsc && pm2 start index.js --name \"iau-profile-pic-creator-api\"",
 		"ts.check": "tsc --project tsconfig.json",
 		"add-build": "git add dist"
 	},
