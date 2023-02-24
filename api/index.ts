@@ -16,24 +16,25 @@ app.set("port", process.env.PORT || 8081);
 
 app.get("/api", async (req, res) => {
 	try {
-		const data = {
-			text_pre: req.query.pre,
-			text_main: req.query.main,
-			text_post: req.query.post,
-			text_desc: req.query.desc,
-		};
+		const SessionName = Date.now().toString(),
+			data = {
+				SessionName: SessionName,
+				text_pre: req.query.pre ?? "",
+				text_main: req.query.main ?? "",
+				text_post: req.query.post ?? "",
+				text_desc: req.query.desc ?? "",
+			},
+			svg = CreateSvg({
+				width: 3000,
+				height: 3000,
+				width_viewBox: 3000,
+				height_viewBox: 3000,
+				...data,
+			}),
+			svg_buffer = Buffer.from(svg),
+			ConsoleTimeName = "Sharp-" + SessionName;
 
-		const svg = CreateSvg({
-			width: 3000,
-			height: 3000,
-			width_viewBox: 3000,
-			height_viewBox: 3000,
-			...data,
-		});
-
-		const svg_buffer = Buffer.from(svg);
-
-		console.time("Sharp");
+		console.time(ConsoleTimeName);
 
 		Sharp("a.png")
 			.composite([
@@ -50,11 +51,11 @@ app.get("/api", async (req, res) => {
 
 				res.writeHead(200, {
 					"Content-Type": "image/png",
-					"Content-Disposition": `attachment; filename="IAU-ProfilePic-${Date.now()}.png"`,
+					"Content-Disposition": `attachment; filename="IAU-ProfilePic-${SessionName}.png"`,
 				});
 				res.end(result);
 
-				console.timeEnd("Sharp");
+				console.timeEnd(ConsoleTimeName);
 			});
 
 		appendFile("log.txt", JSON.stringify(data) + "\r\n", () => undefined);
