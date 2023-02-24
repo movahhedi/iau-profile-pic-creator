@@ -4,7 +4,9 @@ import Sharp from "sharp";
 import cors from "cors";
 import CreateSvg from "./create-svg.js";
 import { appendFile } from "fs";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
@@ -19,14 +21,14 @@ app.get("/api", async (req, res) => {
 			text_main: req.query.main,
 			text_post: req.query.post,
 			text_desc: req.query.desc,
-		}
+		};
 
 		const svg = CreateSvg({
 			width: 3000,
 			height: 3000,
 			width_viewBox: 3000,
 			height_viewBox: 3000,
-			...data
+			...data,
 		});
 
 		const svg_buffer = Buffer.from(svg);
@@ -56,7 +58,6 @@ app.get("/api", async (req, res) => {
 			});
 
 		appendFile("log.txt", JSON.stringify(data) + "\r\n", () => undefined);
-
 	} catch (err) {
 		processErrorResponse(res, 500, err);
 	}
@@ -73,7 +74,7 @@ function processErrorResponse(res, statusCode, message) {
 }
 
 app.listen(app.get("port"), () => {
-	console.log("Express is running on port", app.get("port"));
+	console.log("iau-profile-pic-creator api is running on port", app.get("port"));
 });
 
 export default app;
