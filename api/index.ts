@@ -50,7 +50,7 @@ app.get("/api", async (req, res) => {
 
 				res.writeHead(200, {
 					"Content-Type": "image/png",
-					"Content-Disposition": `attachment; filename="IAU-ProfilePic.png"`,
+					"Content-Disposition": `attachment; filename="IAU-ProfilePic-${Date.now()}.png"`,
 				});
 				res.end(result);
 
