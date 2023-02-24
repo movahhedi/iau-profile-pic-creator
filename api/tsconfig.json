@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"noImplicitAny": false,
 		"target": "es6",
-		"module": "commonjs",
+		"module": "ES6",
 		"lib": ["ES2019", "DOM", "DOM.Iterable"],
 		"moduleResolution": "node",
 		"removeComments": false,
@@ -15,7 +15,6 @@
 			"./node_modules/@types",
 			"./@types"
 		],
-		"outDir": "dist",
 		"baseUrl": ".",
 		"paths": {
 			"*": ["node_modules/*", "src/types/*"]
@@ -24,6 +23,6 @@
 	"ts-node": {
 		"esm": true
 	},
-	"include": ["*.ts"],
+	"include": ["*.ts", "create-svg.ts"],
 	"exclude": ["node_modules", "**/*.spec.ts"]
 }

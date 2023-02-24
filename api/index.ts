@@ -2,32 +2,32 @@ import express from "express";
 import bodyParser from "body-parser";
 import Sharp from "sharp";
 import cors from "cors";
+import CreateSvg from "./create-svg.js";
+import { appendFile } from "fs";
 
 const app = express();
-app.use(express.json()); // Used to parse JSON bodies
-app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.set("port", process.env.PORT || 8081);
 
-app.post("/api", async (req, res) => {
+app.get("/api", async (req, res) => {
 	try {
-		const width = 360;
-		const height = 203;
-		console.log(req.body);
-		const label = req.body.CourseName;
+		const data = {
+			text_pre: req.query.pre,
+			text_main: req.query.main,
+			text_post: req.query.post,
+			text_desc: req.query.desc,
+		}
 
-		const svg = `
-		<svg width="${width}" height="${height}" viewBox="0 0 ${height} ${height + 2}">
-			<style>
-				.name {
-					direction: rtl;
-					font: 500 30px "Vazirmatn";
-				}
-			</style>
-
-			<text class="name" x="50%" y="50%" text-anchor="middle" dy="0.5em" fill="#000">${label}</text>
-		</svg>`;
+		const svg = CreateSvg({
+			width: 3000,
+			height: 3000,
+			width_viewBox: 3000,
+			height_viewBox: 3000,
+			...data
+		});
 
 		const svg_buffer = Buffer.from(svg);
 
@@ -44,16 +44,18 @@ app.post("/api", async (req, res) => {
 			.png()
 			.toBuffer()
 			.then((result) => {
-				const svg_res = `data:image/png;base64,${result.toString("base64")}`;
+				// const svg_res = `data:image/png;base64,${result.toString("base64")}`;
 
 				res.writeHead(200, {
 					"Content-Type": "image/png",
-					"Content-Length": svg_res.length,
+					"Content-Disposition": `attachment; filename="IAU-ProfilePic.png"`,
 				});
-				res.end(svg_res);
+				res.end(result);
 
 				console.timeEnd("Sharp");
 			});
+
+		appendFile("log.txt", JSON.stringify(data) + "\r\n", () => undefined);
 
 	} catch (err) {
 		processErrorResponse(res, 500, err);

@@ -1,0 +1,31 @@
+* {
+	direction: rtl;
+	font-family: "Vazirmatn", "Segoe UI", "Segoe Pro", sans-serif;
+}
+
+html,
+body {
+	max-height: 100vh;
+}
+
+#Result-Svg {
+	display: block;
+	aspect-ratio: 1 / 1;
+	max-height: 70vh;
+	margin: auto;
+	background-image: url("../api/a.png");
+	background-size: 100%;
+}
+
+div {
+	margin-bottom: 10px;
+}
+
+label {
+	display: block;
+}
+
+button,
+a.btn {
+	margin: 10px;
+}

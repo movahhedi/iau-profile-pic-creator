@@ -22,6 +22,6 @@
 			"jquery"
 		]
 	},
-	"include": ["*.tsx"],
+	"include": ["*.ts", "*.tsx", "api/create-svg.ts", "src/index.tsx"],
 	"exclude": ["node_modules", "**/*.spec.ts"]
 }
